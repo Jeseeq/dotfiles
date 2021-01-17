@@ -34,6 +34,7 @@ values."
                        typescript-backend 'tide
                        typescript-fmt-tool 'prettier
                        typescript-linter 'eslint
+                       typescript-fmt-on-save nil
                        )
      ;; (typescript :variables
      ;;             javascript-backend 'tide
@@ -78,10 +79,10 @@ values."
      ;; spell-checking
      syntax-checking
      (version-control :variables
-                      version-control-diff-tool 'diff-hl
-                      version-control-diff-side 'left
-                      version-control-global-margin t
-                      fringes-outside-margins t)
+                    version-control-diff-tool 'diff-hl
+                    version-control-diff-side 'left
+                    version-control-global-margin t
+                    fringes-outside-margins t)
      html
      elm
      markdown
@@ -186,7 +187,8 @@ values."
                          zerodark
                          ;; doom-tomorrow-night
                          spacemacs-dark
-                         spacemacs-light)
+                         spacemacs-light
+                         )
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -357,17 +359,17 @@ values."
   (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
   (push "~/my-emacs" load-path)
   (require 'graphql-mode)
-  ;;(require 'prettier-js)
+  ;; (require 'prettier-js)
   ;;(prettier-mode)
-  (setq prettier-args '(
-                        "--print-width" "120"
-                        "--trailing-comma" "none"
-                        "--bracket-spacing" "false"
-                        "--single-quote" "true"
-                        "--no-bracket-spacing"
-                        "--jsx-bracket-same-line"
-                        "--no-semi"
-                        ))
+  ;; (setq prettier-args '(
+  ;;                       "--print-width" "120"
+  ;;                       "--trailing-comma" "none"
+  ;;                       "--bracket-spacing" "false"
+  ;;                       "--single-quote" "true"
+  ;;                       "--no-bracket-spacing"
+  ;;                       "--jsx-bracket-same-line"
+  ;;                       "--no-semi"
+  ;;                       ))
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init', before layer configuration
 executes.
@@ -533,6 +535,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   (evil-define-key 'insert typescript-mode-map (kbd "C-f") 'company-tide)
   (evil-define-key 'insert typescript-tsx-mode-map (kbd "C-f") 'company-tide)
+  (evil-define-key 'insert rust-mode-map (kbd "C-f") 'company-indent-or-complete-common)
   (with-eval-after-load 'flycheck
     (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t)))
 
@@ -563,7 +566,8 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
-)
+ '(package-selected-packages
+   '(magit smeargle orgit magit-svn magit-section magit-gitflow helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge ghub closql emacsql-sqlite emacsql treepy evil-magit zerodark-theme yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tide tagedit sql-indent spaceline slim-mode shell-pop scss-mode sass-mode rjsx-mode restclient-helm restart-emacs resize-window request rainbow-mode rainbow-identifiers rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin pip-requirements persp-mode pcre2el paradox org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file ob-restclient ob-http ob-elixir nlinum-relative nginx-mode neotree mwim multi-term move-text mmm-mode markdown-toc magit-gh-pulls macrostep lua-mode lorem-ipsum livid-mode live-py-mode link-hint kubernetes-evil js2-refactor js-doc indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio go-guru go-eldoc gnuplot github-search github-clone github-browse-file git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy flycheck-rust flycheck-pos-tip flycheck-mix flycheck-elm flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erlang emmet-mode elm-mode elisp-slime-nav dumb-jump doom-themes dockerfile-mode docker diminish diff-hl define-word cython-mode company-web company-tern company-statistics company-restclient company-quickhelp company-go company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-identifiers-mode coffee-mode clean-aindent-mode cargo auto-yasnippet auto-highlight-symbol auto-compile atom-one-dark-theme alchemist aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
